@@ -1,0 +1,25 @@
+plugins { id "com.android.application" }
+
+android {
+    namespace "com.vlymar.ipc7351b"
+    compileSdk 34
+    defaultConfig {
+        applicationId "com.vlymar.ipc7351b"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+    sourceSets {
+        main {
+            assets.srcDirs = ["../docs"]
+        }
+    }
+    buildTypes {
+        release { minifyEnabled false }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
