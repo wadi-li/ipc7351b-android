@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d2733">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Справочник посадочных мест IPC-7351B (R / C / L)</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1d2733;--mut:#5d6b7a;--acc:#1f6feb;--line:#dde3ea;--inbd:#c9d2dc;--inbg:#fff;--th:#eef2f7;--svgbg:#fbfcfd;--svgbd:#e3e8ee;--hdr:#1d2733;--hdrmut:#b9c4d0;--warn:#b54708;--padf:#e3a63b;--pads:#9a6a12;--bodys:#4a6fa5;--cys:#c0392b;--cross:#333;--shadow:0 1px 3px rgba(0,0,0,.08);--code:#eef2f7}
+[data-theme=dark]{--bg:#0f1419;--card:#1a2129;--ink:#dde4ec;--mut:#93a1b0;--acc:#3b82f6;--line:#2c3742;--inbd:#3a4653;--inbg:#11171d;--th:#232c36;--svgbg:#12181e;--svgbd:#2c3742;--hdr:#0a0e12;--hdrmut:#8696a7;--warn:#f59e0b;--padf:#d19a3a;--pads:#f0c06a;--bodys:#7aa2e0;--cys:#ef6b5b;--cross:#ccc;--shadow:0 1px 3px rgba(0,0,0,.5);--code:#232c36}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 "Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--hdr);color:#fff;padding:12px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{margin:0;font-size:19px}
+header p{margin:3px 0 0;color:var(--hdrmut);font-size:12.5px}
+.hbtn{background:transparent;color:#fff;border:1px solid #556270;border-radius:6px;padding:6px 12px;cursor:pointer;font:inherit}
+main{max-width:1250px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:10px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:14px}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end}
+label{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:3px}
+select,input{font:inherit;padding:6px 8px;border:1px solid var(--inbd);border-radius:6px;background:var(--inbg);color:var(--ink);min-width:80px}
+input[type=number]{width:92px}
+.seg{display:flex;border:1px solid var(--inbd);border-radius:7px;overflow:hidden}
+.seg button{border:0;background:var(--inbg);color:var(--ink);padding:7px 14px;font:inherit;cursor:pointer;border-right:1px solid var(--inbd)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--acc);color:#fff}
+button.sm{border:1px solid var(--inbd);background:var(--inbg);color:var(--ink);border-radius:6px;padding:6px 10px;cursor:pointer;font:inherit}
+h2{font-size:15px;margin:0 0 10px}
+table{border-collapse:collapse;width:100%}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:center;white-space:nowrap}
+th{background:var(--th);font-weight:600}
+td.l{text-align:left}
+.corr{color:var(--warn);font-weight:700}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:1000px){.grid3{grid-template-columns:1fr}}
+.lvl h3{margin:0 0 4px;font-size:14px}
+.lvl .sub{color:var(--mut);font-size:12px;margin-bottom:8px}
+svg.fp{width:100%;height:auto;background:var(--svgbg);border:1px solid var(--svgbd);border-radius:6px;margin-top:8px}
+.note{font-size:12.5px;color:var(--mut)}
+.warn{color:var(--warn);font-size:12.5px}
+.name{font-family:Consolas,monospace;font-size:13px;background:var(--code);padding:2px 6px;border-radius:4px}
+details summary{cursor:pointer;font-weight:600}
+.small{font-size:12px}
+.exp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.exp .grp{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding-right:10px;border-right:1px solid var(--line)}
+.exp .grp:last-child{border-right:0}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--acc);color:#fff;padding:8px 16px;border-radius:8px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:50}
+.toast.show{opacity:1}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:40;padding:20px;overflow:auto}
+.modal.open{display:block}
+.mbox{background:var(--card);color:var(--ink);max-width:900px;margin:0 auto;border-radius:10px;padding:18px 24px}
+.mhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:-20px;background:var(--card);padding:6px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+.md h1{font-size:20px}.md h2{font-size:17px;margin-top:20px}.md h3{font-size:15px;margin-top:16px}
+.md table{margin:8px 0;width:auto}.md td,.md th{white-space:normal;text-align:left}
+.md pre{background:var(--code);padding:10px;border-radius:6px;overflow:auto}
+.md code{background:var(--code);padding:1px 4px;border-radius:3px;font-family:Consolas,monospace}
+.md pre code{padding:0;background:none}
+@media(max-width:700px){
+header{padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top))}
+header h1{font-size:16px}header p{display:none}
+main{padding:8px}.card{padding:10px;border-radius:8px}
+.row{gap:8px}.row>label{flex:1 1 45%}
+select,input{font-size:16px}input[type=number]{width:100%;min-width:60px}
+.seg{width:100%}.seg button{flex:1;padding:9px 4px}
+th,td{padding:4px 5px;font-size:12.5px}
+.card>table,.lvl table,.md table{display:block;overflow-x:auto}
+.exp .grp{border-right:0;padding-right:0;width:100%}
+.exp .grp button{flex:1}
+.mbox{padding:12px}.modal{padding:6px}.hbtn{padding:6px 9px}
+}
+</style>
+</head>
+<body>
+<header>
+<div><h1>Справочник посадочных мест чип-компонентов по IPC-7351B</h1>
+<p>v1.0 • Резисторы, конденсаторы, дроссели • Level A (Most), Level B (Nominal), Level C (Least) • размеры в мм</p></div>
+<div style="display:flex;gap:8px">
+<button class="hbtn" id="helpBtn">📖 Инструкция</button>
+<button class="hbtn" id="themeBtn">☾ Тёмная</button>
+</div>
+</header>
+<main>
+<div class="card"><div class="row">
+<label>Тип элемента
+<div class="seg" id="typeSeg"><button data-t="R" class="on">Резистор</button><button data-t="C">Конденсатор</button><button data-t="L">Дроссель</button></div></label>
+<label>Типоразмер (EIA / метрич.)<select id="size"></select></label>
+<label>F — допуск изготовления ПП<input type="number" id="F" step="0.005" value="0.05"></label>
+<label>P — точность установки<input type="number" id="P" step="0.005" value="0.025"></label>
+<button class="sm" id="reset">Сбросить к библиотеке</button>
+</div></div>
+<div class="card"><h2>Экспорт</h2><div class="exp">
+<div class="grp"><span class="small">Буфер обмена:</span><button class="sm" id="cpCur">Текущий (Markdown)</button><button class="sm" id="cpSum">Сводная (TSV для Excel)</button></div>
+<div class="grp"><span class="small">Файл:</span><button class="sm" id="dlCsvType">CSV: текущий тип</button><button class="sm" id="dlCsvAll">CSV: все типы</button><button class="sm" id="dlJson">JSON: текущий элемент</button></div>
+<div class="grp"><span class="small">KiCad:</span><select id="kLvl"><option value="A">Level A</option><option value="B" selected>Level B</option><option value="C">Level C</option></select><button class="sm" id="dlKicad">.kicad_mod</button></div>
+<div class="grp"><button class="sm" id="dlMd">Инструкция .md</button></div>
+</div></div>
+<div class="card"><h2>1. Размеры элемента</h2>
+<table>
+<tr><th>Параметр</th><th>Номинал</th><th>± допуск</th><th>Мин</th><th>Макс</th></tr>
+<tr><td class="l">Длина L (вдоль оси)</td><td><input type="number" step="0.01" id="L"></td><td><input type="number" step="0.01" id="Lt"></td><td id="Lmin"></td><td id="Lmax"></td></tr>
+<tr><td class="l">Ширина W (поперёк оси)</td><td><input type="number" step="0.01" id="W"></td><td><input type="number" step="0.01" id="Wt"></td><td id="Wmin"></td><td id="Wmax"></td></tr>
+<tr><td class="l">Вывод T (металлизация снизу)</td><td><input type="number" step="0.01" id="T"></td><td><input type="number" step="0.01" id="Tt"></td><td id="Tmin"></td><td id="Tmax"></td></tr>
+<tr><td class="l">Высота H макс. (для имени IPC)</td><td><input type="number" step="0.01" id="H"></td><td>—</td><td>—</td><td id="Hmax"></td></tr>
+<tr><td class="l">Зазор между выводами S</td><td>—</td><td>—</td><td id="Smin"></td><td id="Smax"></td></tr>
+</table><p class="note" id="src"></p></div>
+<div class="card"><h2>2–4. Посадочные места IPC-7351B</h2>
+<div class="grid3" id="levels"></div>
+<p class="note" style="margin-top:10px">Ш — размер площадки вдоль оси компонента (Y по IPC), В — поперёк оси (X по IPC). ±X центра — половина расстояния между центрами площадок. Z — общая длина по наружным краям площадок, G — зазор между внутренними краями.</p>
+<div id="footnote" class="note"></div></div>
+<div class="card"><h2>Сводная таблица по выбранному типу (библиотечные размеры)</h2>
+<div style="overflow-x:auto"><table id="summary"></table></div>
+<p class="note">* — размер изменён относительно расчётного в бо́льшую сторону, чтобы корпус не выступал за площадку (В ≥ Wmax, Z ≥ Lmax).</p></div>
+<div class="card"><details><summary>Методика расчёта и коэффициенты J (можно править)</summary>
+<div style="margin-top:10px" class="small">
+<p>Z = Lmin + 2·J<sub>T</sub> + √(C<sub>L</sub>² + F² + P²)<br>G = S<sub>max,RMS</sub> − 2·J<sub>H</sub> − √(C<sub>S,RMS</sub>² + F² + P²)<br>X = Wmin + 2·J<sub>S</sub> + √(C<sub>W</sub>² + F² + P²)</p>
+<p>Полное описание — в разделе «📖 Инструкция».</p>
+<div style="overflow-x:auto"><table id="jtab"></table></div></div></details></div>
+</main>
+<div class="modal" id="modal"><div class="mbox">
+<div class="mhead"><b>Инструкция по использованию</b>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="sm" id="mdCopy">Копировать Markdown</button><button class="sm" id="mdDl">Скачать .md</button><button class="sm" id="mClose">✕ Закрыть</button></div></div>
+<div class="md" id="mdView"></div></div></div>
+<div class="toast" id="toast"></div>
+<script src="help.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
